@@ -1,3 +1,5 @@
+from django.db import models
+from django.db.models import Sum  # Import Sum here
 from rest_framework import generics
 from rest_framework.response import Response
 from django.utils import timezone
@@ -23,9 +25,9 @@ class WalletTransferVolumeView(generics.GenericAPIView):
         )
 
         volumes = {
-            'USDC': transactions.filter(currency='USDC').aggregate(total=models.Sum('amount'))['total'] or 0,
-            'USDT': transactions.filter(currency='USDT').aggregate(total=models.Sum('amount'))['total'] or 0,
-            'ETH': transactions.filter(currency='ETH').aggregate(total=models.Sum('amount'))['total'] or 0,
+            'USDC': transactions.filter(currency='USDC').aggregate(total=Sum('amount'))['total'] or 0,
+            'USDT': transactions.filter(currency='USDT').aggregate(total=Sum('amount'))['total'] or 0,
+            'ETH': transactions.filter(currency='ETH').aggregate(total=Sum('amount'))['total'] or 0,
         }
 
         return Response(volumes)
